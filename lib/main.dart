@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
       title: 'Aadhar Updater',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.orange),
-      home: AuthOperatorScreen(),
-      // home: isAuth?AuthOperatorScreen():OpAuth(),
+      // home: AuthOperatorScreen(),
+      home: isAuth?AuthOperatorScreen():OpAuth(),
     );
   }
 }
