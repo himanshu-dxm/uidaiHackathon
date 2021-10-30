@@ -31,15 +31,6 @@ class Compare{
 }
 
 
-
-
-
-
-
-
-
-
-
 //String address,String location,String permanent
   // static Future<List<String>> compareDetails(String address,String location,String permanent)async
   // {

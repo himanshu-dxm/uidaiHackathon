@@ -6,9 +6,9 @@ class Authentication {
   static final _otpURL = Uri.parse("https://stage1.uidai.gov.in/onlineekyc/getOtp/");
   static final _authURL = Uri.parse("https://stage1.uidai.gov.in/onlineekyc/getAuth/");
 
-  static Future<http.Response> sendOTP(vid,txnId) async {
+  static Future<Response> sendOTP(vid,txnId) async {
     print("Inside sendOtp func");
-    Response res;
+    Response res = new Response(status: "n", errCode: "");
     var response;
     Map data = {
       "vid":vid,
@@ -32,12 +32,12 @@ class Authentication {
     } else {
       print("Error Occurred");
     }
-    return response;
+    return res;
   }
 
-  static Future<http.Response> verifyOTp(vid,txnId,otp) async {
+  static Future<Response> verifyOTp(vid,txnId,otp) async {
     print("Inside verifyOtp func");
-    Response res;
+    Response res = new Response(status: "n", errCode: "");
     var response;
     Map data = {
       "vid":vid,
@@ -62,7 +62,7 @@ class Authentication {
     } else {
       print("Error Occurred");
     }
-    return response;
+    return res;
   }
 }
 

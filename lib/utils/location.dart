@@ -29,7 +29,7 @@ class location{
       print(locations[0].toString());
       address.toString().split(',').removeWhere((element)=>
       element.toString()== ' ');
-      location.doc_address = address;
+      location.doc_address = address.toString().split(',');
       location.add_lat = locations[0].latitude;
       location.add_long = locations[0].longitude;//get coordinates of the address
       return Geolocator.distanceBetween(p.latitude,p.longitude,locations[0].latitude,locations[0].longitude).toInt();

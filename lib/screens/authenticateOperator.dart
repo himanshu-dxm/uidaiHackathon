@@ -4,7 +4,7 @@ import 'package:aadharupdater/api/LocalAuthAPI.dart';
 import 'package:aadharupdater/screens/home.dart';
 import 'package:flutter/material.dart';
 
-import '../demoScreen.dart';
+import 'demoScreen.dart';
 
 class AuthOperatorScreen extends StatefulWidget {
   const AuthOperatorScreen({Key? key}) : super(key: key);

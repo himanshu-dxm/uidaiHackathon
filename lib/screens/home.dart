@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:aadharupdater/api/LocalAuthAPI.dart';
-import 'package:aadharupdater/demoScreen.dart';
+import 'package:aadharupdater/models/Auth.dart';
+import 'package:aadharupdater/screens/demoScreen.dart';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import '../location.dart';
-import '../capture.dart';
-import '../data.dart';
-import '../compare.dart';
+import '../utils/location.dart';
+import '../utils/capture.dart';
+import '../models/data.dart';
+import '../utils/compare.dart';
 
 class MyHomePage extends StatefulWidget {
 
@@ -33,8 +35,11 @@ class MyHomePageState extends State<MyHomePage> {
   static String output='null';
   static  TextEditingController c1 = new TextEditingController();// field1 contoller
   static  TextEditingController c2 = new TextEditingController();//field 2 controller
-  static TextEditingController c3 = new TextEditingController();//for UID
-  static TextEditingController c4 = new TextEditingController();//for OTP
+  static TextEditingController UIDTextContoller = new TextEditingController();//for UID
+  static TextEditingController OTPTextContoller = new TextEditingController();//for OTP
+
+  String txnId = "0acbaa8b-b3ae-433d-a5d2-51250ea8e970";
+  String backEndOTP = "";
 
 
   static Future<void> getLocation()async{
@@ -54,48 +59,56 @@ class MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(//for controlling overflow
         child: Column(
           children: [
-            uid==false?Container(child: Column(children: [
+            !uid?Container(child: Column(children: [
               TextField(
-                controller: c3,// UID
-                maxLength: 16,
-                decoration: InputDecoration(suffixIcon: IconButton(icon:Icon(Icons.qr_code),onPressed: ()async{
-
-                },),
+                controller: UIDTextContoller,// UID
+                maxLength: 12,
+                decoration: InputDecoration(suffixIcon: IconButton(icon:Icon(Icons.qr_code),
+                  onPressed: () {},
+                ),
                     hintText: 'UID',
                     labelText: 'UID',
                     enabled: caneditUID
                 ),
-                keyboardType: TextInputType.numberWithOptions(decimal: false,signed: false),
+                keyboardType: TextInputType.number,
                 onSubmitted: (val)async{
-                  if(val.length==16)
+                  if(val.length==12)
                   {
                     setState(() {
                       showotp = true;
                     });
-                  }
-                  else{
+                  } else {
                     setState(() {
                       showotp = false;
                     });
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("enter valid UID")));
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter Valid UID")));
                   }
                 },
               ),
-              showotp?ElevatedButton(onPressed: ()async{
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP sent to Number:')));
-                //OTP sending
-                setState(() {
-                  otpsent = true;
-                });
+              showotp?ElevatedButton(
+                  onPressed: () async {
+                    Response res = await Authentication.sendOTP(UIDTextContoller.text, txnId);
+                    if(res.status=='y') {
+                      setState(() {
+                        otpsent = true;//otp sending
+                      });
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("OTP Not Sent\nEnter Valid UID")));
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP Sent to Number:')));
+                    setState(() {
+                      otpsent = true;//otp sending
+                    });
+
               }, child: Text("Get OTP")):SizedBox(),
-              otpsent==true?
+              otpsent?
               TextField(
-                controller: c4,
+                controller: OTPTextContoller,
                 decoration: InputDecoration(hintText: 'OTP',labelText: 'OTP',),
                 keyboardType: TextInputType.numberWithOptions(decimal: false,signed: false),
-                onSubmitted: (val)async{
+                onSubmitted: (val) async {
                   if(val == "1234"){
-                    //procced
+                    //proceed
                     setState(() {
                       enter = true;
                       showotp = false;
@@ -108,11 +121,10 @@ class MyHomePageState extends State<MyHomePage> {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP is wrong')));
                   }
                 },
-              )
-                  :SizedBox(height: 0,)
+              ):SizedBox(height: 0,)
             ],),):SizedBox(height: 0,),
 
-            enter&&show==false?Container(
+            enter&&!show?Container(
               child: Column(children: [
                 TextField(//flatno/houseno
                   controller: c1,
@@ -281,8 +293,8 @@ class MyHomePageState extends State<MyHomePage> {
                           output='null';
                           c1.clear();
                           c2.clear();
-                          c3.clear();
-                          c4.clear();
+                          UIDTextContoller.clear();
+                          OTPTextContoller.clear();
                           location.clear();
                           ImageProcessing.clear();
                           isLoading = false; //Loading of page

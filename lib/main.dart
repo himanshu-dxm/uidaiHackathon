@@ -5,7 +5,7 @@ import 'package:aadharupdater/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'demoScreen.dart';
+import 'screens/demoScreen.dart';
 
 Future<void> main()async{
     WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Aadhar Updater',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.orange),
-      home: AuthOperatorScreen(),
+      home: MyHomePage(),
     );
   }
 }
