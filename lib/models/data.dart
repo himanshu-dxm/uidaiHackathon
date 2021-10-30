@@ -8,13 +8,13 @@ class Data{
   final int error_distance_m;
   final List gps_address,document_address,final_address;
   final String proof_file_name;
-  final String security;
+  final String txnId;
   final Uint8List filedata;
 
   const Data({
     required this.date,
     required this.filedata,
-    required this.security,
+    required this.txnId,
     required this.UID,
     required this.add_lat,
     required this.add_long,
@@ -30,7 +30,7 @@ Map<String, dynamic> toJson() {
   return {
         "date":date.toIso8601String(),
         "UID":UID,
-        "security":security,
+        "security":txnId,
         // "filedata":filedata,
         "final_address":final_address,
         "document_address":document_address,

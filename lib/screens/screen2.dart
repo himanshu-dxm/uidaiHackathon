@@ -53,8 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
     new Register('Amith Shubhan', contenter, iconer)
   ];
 
-//  var myList = [{'contents' :"Haneesh"},"Himanshu Bhel","Amith Shubhan"];
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -100,6 +98,7 @@ _buildExpandableContent(Register register) {
         onTap: () => print("on tap"),
       ),
     );
+    i++;
   }
 
   return columnContent;

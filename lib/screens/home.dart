@@ -11,6 +11,7 @@ import '../utils/location.dart';
 import '../utils/capture.dart';
 import '../models/data.dart';
 import '../utils/compare.dart';
+import 'package:uuid/uuid.dart';
 
 class MyHomePage extends StatefulWidget {
 
@@ -41,6 +42,10 @@ class MyHomePageState extends State<MyHomePage> {
   String txnId = "0acbaa8b-b3ae-433d-a5d2-51250ea8e970";
   String backEndOTP = "";
 
+   void generateTxnId() {
+    var uuid = Uuid();
+    txnId = uuid.v4();
+  }
 
   static Future<void> getLocation()async{
     //function to get the location of the mobile using gps
@@ -243,13 +248,13 @@ class MyHomePageState extends State<MyHomePage> {
                     }
                   }, child: Text("Validate")):SizedBox(),
 
-                  output!="null"?Container(child: Text(output.toString()),):SizedBox(),
+                  // output!="null"?Container(child: Text(output.toString()),):SizedBox(),
 
                   show==false?ElevatedButton(onPressed: () async {
                     List fa = (c1.text.toString()+","+c2.text.toString()).split(',');
                     Data data = new Data(date: DateTime.now(),
-                        security: "security",//need to change
-                        UID: "UID",          //need to change
+                        txnId: txnId.toString(),
+                        UID: UIDTextContoller.text.toString(),
                         add_lat: location.add_lat,
                         add_long: location.add_long,
                         loc_lat: location.loc_lat,
