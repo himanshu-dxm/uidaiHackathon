@@ -8,13 +8,17 @@ class DemoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        title: Text('Customer List'),
       ),
       body: Center(
         child: Container(
+          margin: EdgeInsets.all(3),
+          padding: EdgeInsets.all(3),
           child: Column(
             children: [
               Container(
+                margin: EdgeInsets.all(1),
+              padding: EdgeInsets.all(1),
                 child: Row(
                   children: [
                   DropdownButton<String>(
