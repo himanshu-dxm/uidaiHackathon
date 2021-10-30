@@ -69,7 +69,7 @@ class _AuthOperatorScreenState extends State<AuthOperatorScreen> {
                                 final isAuthenticated = await LocalAuthAPI.authenticate();
                                 print("IsAuthenticated Value = ${isAuthenticated}");
                                 if(isAuthenticated) {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DemoScreen()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Screen2()));
                                 }
                               },
                               child: Container(

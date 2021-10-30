@@ -36,7 +36,7 @@ class ImageProcessing{
           {
         final time = DateTime.now().microsecondsSinceEpoch; //unique name for file from date and time
         await image.saveTo(d.path+"/$time.jpg");//save the image
-        //need to verify
+        // need to verify
         // await Directory(relpath).create(recursive: true).then((value) async{
         //   print("created");
         //   await File(relpath+'/$time.jpg').create().then((value)async{

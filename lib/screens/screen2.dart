@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'home.dart';
+
 
 class Screen2 extends StatefulWidget {
   const Screen2({Key? key}) : super(key: key);
@@ -16,12 +18,12 @@ class _Screen2State extends State<Screen2> {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const AmithHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-List<String> contenter = ['UID', 'Verify', 'Add'];
+List<String> contenter = ['Address', 'Verify', 'Add'];
 List<IconData> iconer = [
   Icons.perm_identity,
   Icons.domain_verification,
@@ -36,21 +38,21 @@ class Register {
   Register(this.title, this.contents, this.icon);
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class AmithHomePage extends StatefulWidget {
+  const AmithHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<AmithHomePage> createState() => _AmithHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _AmithHomePageState extends State<AmithHomePage> {
   int _counter = 0;
   List<Register> registers = [
-    new Register('Haneesh', contenter, iconer),
-    new Register('Himanshu Behl', contenter, iconer),
-    new Register('Amith Shubhan', contenter, iconer)
+    new Register('Haneesh\'sUID', contenter, iconer),
+    new Register('Himanshu Behl\'sUID', contenter, iconer),
+    new Register('Amith Shubhan\'sUID', contenter, iconer)
   ];
 
   @override
@@ -71,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               children: <Widget>[
                 new Column(
-                  children: _buildExpandableContent(registers[i]),
+                  children: _buildExpandableContent(registers[i],context),
                 ),
               ],
               leading: new Icon(Icons.account_circle));
@@ -81,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-_buildExpandableContent(Register register) {
+_buildExpandableContent(Register register,BuildContext context) {
   List<Widget> columnContent = [];
   var i = 0;
   for (String content in register.contents) {
@@ -95,7 +97,9 @@ _buildExpandableContent(Register register) {
         trailing: Icon(
           Icons.arrow_forward_ios,
         ),
-        onTap: () => print("on tap"),
+        onTap: () => {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage()))
+        },
       ),
     );
     i++;
