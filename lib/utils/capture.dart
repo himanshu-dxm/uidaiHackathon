@@ -93,4 +93,26 @@ class ImageProcessing{
       path = null;
     }
   }
+  static Future<String> qrCodeCapture()async{
+    try{
+      var res='';
+      var codeRecogniser = GoogleMlKit.vision.barcodeScanner();
+      var codeImage = await ImagePicker.platform.getImage(source: ImageSource.camera,preferredCameraDevice: CameraDevice.rear);
+      var d = await getExternalStorageDirectory();
+      var imagePath = d!.path.toString()+'/qr_${DateTime.now().millisecondsSinceEpoch.toString()}';
+      var qrFile = await File(imagePath).writeAsBytes(await codeImage!.readAsBytes());
+      var a  = await codeRecogniser.processImage(InputImage.fromFile(qrFile));
+      res = a[0].value.displayValue.toString();
+      // print(a[0]);
+      if(res.length==12)
+      return res.toString();
+      else{
+        return '';
+      }
+    }catch(e){
+      print(e);
+      return Future.error("error in qr");
+      // return '0';
+    }
+  }
 }

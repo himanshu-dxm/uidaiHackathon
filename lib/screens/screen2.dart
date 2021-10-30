@@ -14,7 +14,7 @@ class _Screen2State extends State<Screen2> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'AAU',
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
@@ -50,34 +50,65 @@ class AmithHomePage extends StatefulWidget {
 class _AmithHomePageState extends State<AmithHomePage> {
   int _counter = 0;
   List<Register> registers = [
-    new Register('Haneesh\'sUID', contenter, iconer),
-    new Register('Himanshu Behl\'sUID', contenter, iconer),
-    new Register('Amith Shubhan\'sUID', contenter, iconer)
+    new Register('Haneesh\'s UID', contenter, iconer),
+    new Register('Himanshu Behl\'s UID', contenter, iconer),
+    new Register('Amith Shubhan\'s UID', contenter, iconer)
   ];
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(),
-      body: new ListView.builder(
-        itemCount: registers.length,
-        itemBuilder: (context, i) {
-          return new ExpansionTile(
-              tilePadding: EdgeInsets.all(10),
-              title: new Text(
-                registers[i].title,
-                style: new TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic),
+      appBar: AppBar(
+        title: Text("Customer's List"),
+      ),
+      body: Container(
+        margin: EdgeInsets.all(1),
+        padding: EdgeInsets.all(1),
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              // decoration: BoxDecoration(border: Border.all(width: 1)),
+              margin: EdgeInsets.all(1),
+              padding: EdgeInsets.all(3),
+              child: GestureDetector(child: Text('Enter manually',style: new TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),),onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
+              },),
+            ),
+            Container(
+              margin: EdgeInsets.all(3),
+              decoration: BoxDecoration(border: Border.all(width: 1)),
+              child: SizedBox(
+                width: double.infinity,
               ),
-              children: <Widget>[
-                new Column(
-                  children: _buildExpandableContent(registers[i],context),
-                ),
-              ],
-              leading: new Icon(Icons.account_circle));
-        },
+            ),
+            Expanded(
+              child: new ListView.builder(
+                itemCount: registers.length,
+                itemBuilder: (context, i) {
+                  return new ExpansionTile(
+                      tilePadding: EdgeInsets.all(10),
+                      title: new Text(
+                        registers[i].title,
+                        style: new TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                      children: <Widget>[
+                        new Column(
+                          children: _buildExpandableContent(registers[i],context),
+                        ),
+                      ],
+                      leading: new Icon(Icons.account_circle));
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

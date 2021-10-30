@@ -7,6 +7,7 @@ import 'package:aadharupdater/screens/demoScreen.dart';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/location.dart';
 import '../utils/capture.dart';
 import '../models/data.dart';
@@ -60,16 +61,35 @@ class MyHomePageState extends State<MyHomePage> {
 
     return isLoading?Center(child: CircularProgressIndicator(),): //if loading return Progress indicator
     Scaffold(
-      appBar: AppBar(actions: [],),
+      appBar: AppBar(actions: [],title: Text('Details'),),
       body: SingleChildScrollView(//for controlling overflow
         child: Column(
           children: [
-            !uid?Container(child: Column(children: [
+            !uid?Container(
+              margin: EdgeInsets.all(3),
+              padding: EdgeInsets.all(3),
+              child: Column(children: [
               TextField(
                 controller: UIDTextContoller,// UID
                 maxLength: 12,
-                decoration: InputDecoration(suffixIcon: IconButton(icon:Icon(Icons.qr_code),
-                  onPressed: () {},
+              
+                decoration: InputDecoration(border: OutlineInputBorder(),suffixIcon: IconButton(icon:Icon(Icons.qr_code_scanner_outlined),
+                  onPressed: () async{
+                    setState(() {
+                      isLoading = true;
+                    });
+                    var val;
+                    try {
+                      val = await ImageProcessing.qrCodeCapture();
+                    } catch (e) {
+                      print(e);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error in getting barcode")));
+                    }
+                    setState(() {
+                      UIDTextContoller.text= val.toString();
+                      isLoading = false;
+                    });
+                  },
                 ),
                     hintText: 'UID',
                     labelText: 'UID',
@@ -111,7 +131,7 @@ class MyHomePageState extends State<MyHomePage> {
               otpsent?
               TextField(
                 controller: OTPTextContoller,
-                decoration: InputDecoration(hintText: 'OTP',labelText: 'OTP',),
+                decoration: InputDecoration(hintText: 'OTP',labelText: 'OTP',border: OutlineInputBorder()),
                 keyboardType: TextInputType.numberWithOptions(decimal: false,signed: false),
                 onSubmitted: (val) async {
                   Response res = await Authentication.verifyOTp(UIDTextContoller.text, txnId, OTPTextContoller.text);
@@ -131,24 +151,30 @@ class MyHomePageState extends State<MyHomePage> {
             ],),):SizedBox(height: 0,),
 
             enter&&!show?Container(
+              margin: EdgeInsets.all(3),
+              padding: EdgeInsets.all(3),
               child: Column(children: [
                 TextField(//flatno/houseno
                   controller: c1,
                   maxLines: 2,
-                  decoration: InputDecoration(labelText:  'Local address'),
+                  decoration: InputDecoration(labelText:  'Local address',border: OutlineInputBorder()),
                 ),
                 TextField(//street
                   controller: c2,
                   maxLines: 2,
-                  decoration: InputDecoration(labelText: 'Main address',enabled: false),
+                  decoration: InputDecoration(labelText: 'Main address',enabled: false,border: OutlineInputBorder()),
                 ),
               ],),
             ):SizedBox(),
 
             (enter)?Container(
+              margin: EdgeInsets.all(3),
+              padding: EdgeInsets.all(3),
               child: Column(
                 children: [
                   output!='null'?Container(
+                    margin: EdgeInsets.all(3),
+                    padding: EdgeInsets.all(3),
                     child: Text(output), // error length as output
                   ):SizedBox(),
                   //button to capture image
@@ -178,6 +204,8 @@ class MyHomePageState extends State<MyHomePage> {
                   //image editor
                   show==true?
                   Container(
+                    margin: EdgeInsets.all(1),
+                    padding: EdgeInsets.all(1),
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height*0.5,
                     child: Crop(image: data, //crop the image data
@@ -251,9 +279,12 @@ class MyHomePageState extends State<MyHomePage> {
                   // output!="null"?Container(child: Text(output.toString()),):SizedBox(),
 
                   show==false?ElevatedButton(onPressed: () async {
-                    List fa = (c1.text.toString()+","+c2.text.toString()).split(',');
-                    Data data = new Data(date: DateTime.now(),
+                      var prefs = await SharedPreferences.getInstance();
+                      var opuid = prefs.getString('OpUID');
+                      List fa = (c1.text.toString()+","+c2.text.toString()).split(',');
+                      Data data = new Data(date: DateTime.now(),
                         txnId: txnId.toString(),
+                        opUID: opuid.toString(),
                         UID: UIDTextContoller.text.toString(),
                         add_lat: location.add_lat,
                         add_long: location.add_long,
@@ -264,7 +295,7 @@ class MyHomePageState extends State<MyHomePage> {
                         filedata : ImageProcessing.saveData,
                         gps_address: location.gps_address,
                         document_address: location.doc_address,
-                        final_address: fa
+                        final_address: fa,
                     );
                     setState(() {
                       isLoading = true;
