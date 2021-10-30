@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Aadhar Updater',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.orange),
-      home: MyHomePage(),
+      home: AuthOperatorScreen(),
     );
   }
 }

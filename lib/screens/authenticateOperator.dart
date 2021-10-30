@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:aadharupdater/api/LocalAuthAPI.dart';
 import 'package:aadharupdater/screens/home.dart';
+import 'package:aadharupdater/screens/screen2.dart';
 import 'package:flutter/material.dart';
 
 import 'demoScreen.dart';
@@ -68,7 +69,7 @@ class _AuthOperatorScreenState extends State<AuthOperatorScreen> {
                                 final isAuthenticated = await LocalAuthAPI.authenticate();
                                 print("IsAuthenticated Value = ${isAuthenticated}");
                                 if(isAuthenticated) {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DemoScreen()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Screen2()));
                                 }
                               },
                               child: Container(
