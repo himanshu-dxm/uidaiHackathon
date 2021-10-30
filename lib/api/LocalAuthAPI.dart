@@ -11,6 +11,7 @@ class LocalAuthAPI {
     try {
       return await _auth.canCheckBiometrics;
     } on PlatformException catch (e) {
+      print(e.toString());
       return false;
     }
   }

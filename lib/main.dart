@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.orange),
       // home: AuthOperatorScreen(),
-      home: isAuth?AuthOperatorScreen():OpAuth(),
+      // home: isAuth?AuthOperatorScreen():OpAuth(),
+      home: AuthOperatorScreen(),
     );
   }
 }

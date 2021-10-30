@@ -13,21 +13,15 @@ class Screen2 extends StatefulWidget {
 class _Screen2State extends State<Screen2> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'AAU',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: const AmithHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return AmithHomePage(title: 'Aadhaar Address Update ');
   }
 }
 
-List<String> contenter = ['Address', 'Verify', 'Add'];
+List<String> contenter = ['Address', 'Verify'];
 List<IconData> iconer = [
   Icons.perm_identity,
   Icons.domain_verification,
-  Icons.add
+  // Icons.add
 ];
 
 class Register {
@@ -59,27 +53,31 @@ class _AmithHomePageState extends State<AmithHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: Text("Customer's List"),
+        title: Center(child: Text("Client's List")),
       ),
       body: Container(
         margin: EdgeInsets.all(1),
         padding: EdgeInsets.all(1),
         child: Column(
           children: [
+            SizedBox(height: 8,),
             Container(
               width: double.infinity,
               // decoration: BoxDecoration(border: Border.all(width: 1)),
-              margin: EdgeInsets.all(1),
-              padding: EdgeInsets.all(3),
-              child: GestureDetector(child: Text('Enter manually',style: new TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),),onTap: (){
+              margin: EdgeInsets.all(8),
+              padding: EdgeInsets.all(8),
+              child: GestureDetector(child: Text('Enter manually',
+                style: new TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic),
+                ),
+                onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
               },),
             ),
             Container(
-              margin: EdgeInsets.all(3),
+              margin: EdgeInsets.all(8),
               decoration: BoxDecoration(border: Border.all(width: 1)),
               child: SizedBox(
                 width: double.infinity,

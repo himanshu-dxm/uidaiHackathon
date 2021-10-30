@@ -36,7 +36,7 @@ class OpAuthState extends State<OpAuth>{
               }
               else
               {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("UID is invaild")));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("UID is invalid")));
               }
             },
           ),

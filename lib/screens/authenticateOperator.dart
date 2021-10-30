@@ -34,17 +34,17 @@ class _AuthOperatorScreenState extends State<AuthOperatorScreen> {
             // ),
             ClipRRect(
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5,sigmaY: 3),
+                filter: ImageFilter.blur(sigmaX: 0,sigmaY: 0),
                 child: Container(
                   height: 20,
                   width: 20,
                   alignment: Alignment.center,
-                  color: Colors.grey.withOpacity(0.1),
+                  color: Colors.grey.withOpacity(0.09),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 350,),
+                      SizedBox(height: 200,),
                       Container(
                         child: Text(
                           "Welcome",
@@ -55,7 +55,7 @@ class _AuthOperatorScreenState extends State<AuthOperatorScreen> {
                           )
                         ),
                       ),
-                      SizedBox(height: 15,),
+                      SizedBox(height: 250,),
                       Container(
                           margin: EdgeInsets.all(50),
                           padding: EdgeInsets.all(8),
@@ -69,7 +69,7 @@ class _AuthOperatorScreenState extends State<AuthOperatorScreen> {
                                 final isAuthenticated = await LocalAuthAPI.authenticate();
                                 print("IsAuthenticated Value = ${isAuthenticated}");
                                 if(isAuthenticated) {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Screen2()));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Screen2()));
                                 }
                               },
                               child: Container(

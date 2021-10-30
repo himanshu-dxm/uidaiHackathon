@@ -61,120 +61,173 @@ class MyHomePageState extends State<MyHomePage> {
 
     return isLoading?Center(child: CircularProgressIndicator(),): //if loading return Progress indicator
     Scaffold(
-      appBar: AppBar(actions: [],title: Text('Details'),),
-      body: SingleChildScrollView(//for controlling overflow
+      appBar: AppBar(
+        title: Text('Enter Details'),
+      ),
+      body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            !uid?Container(
-              margin: EdgeInsets.all(3),
-              padding: EdgeInsets.all(3),
-              child: Column(children: [
-              TextField(
-                controller: UIDTextContoller,// UID
-                maxLength: 12,
+            !uid?
+            Container(
+              margin: EdgeInsets.all(2),
+              padding: EdgeInsets.all(2),
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 8,),
+                Container(
+                  margin: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(2),
+                  child: TextField(
+                  controller: UIDTextContoller,// UID
+                  maxLength: 12,
               
-                decoration: InputDecoration(border: OutlineInputBorder(),suffixIcon: IconButton(icon:Icon(Icons.qr_code_scanner_outlined),
-                  onPressed: () async{
-                    setState(() {
-                      isLoading = true;
-                    });
-                    var val;
-                    try {
-                      val = await ImageProcessing.qrCodeCapture();
-                    } catch (e) {
-                      print(e);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error in getting barcode")));
+                  decoration: InputDecoration(border: OutlineInputBorder(),suffixIcon: IconButton(icon:Icon(Icons.qr_code_scanner_outlined),
+                    onPressed: () async{
+                      setState(() {
+                        isLoading = true;
+                      });
+                      var val;
+                      try {
+                        val = await ImageProcessing.qrCodeCapture();
+                      } catch (e) {
+                        print(e);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error in getting barcode")));
+                      }
+                      setState(() {
+                        UIDTextContoller.text= val.toString();
+                        isLoading = false;
+                      });
+                    },
+                  ),
+                      hintText: 'UID',
+                      labelText: 'UID',
+                      enabled: caneditUID
+                  ),
+                  keyboardType: TextInputType.number,
+                  onSubmitted: (val)async{
+                    if(val.length==12)
+                    {
+                      setState(() {
+                        showotp = true;
+                      });
+                    } else {
+                      setState(() {
+                        showotp = false;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter Valid UID")));
                     }
-                    setState(() {
-                      UIDTextContoller.text= val.toString();
-                      isLoading = false;
-                    });
                   },
-                ),
-                    hintText: 'UID',
-                    labelText: 'UID',
-                    enabled: caneditUID
-                ),
-                keyboardType: TextInputType.number,
-                onSubmitted: (val)async{
-                  if(val.length==12)
-                  {
-                    setState(() {
-                      showotp = true;
-                    });
-                  } else {
-                    setState(() {
-                      showotp = false;
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter Valid UID")));
-                  }
-                },
               ),
-              showotp?ElevatedButton(
-                  onPressed: () async {
-                    Response res = await Authentication.sendOTP(UIDTextContoller.text, txnId);
-                    if(res.status=='y') {
+                ),
+
+                // SizedBox(height: 8,),
+
+                showotp?
+                Container(
+                  margin: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(2),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.yellowAccent),
+                    ),
+                    onPressed: () async {
+                      Response res = await Authentication.sendOTP(UIDTextContoller.text, txnId);
+                      if(res.status=='y') {
+                        setState(() {
+                          otpsent = true;//otp sending
+                        });
+                      } else if(res.status=='n'){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("OTP Not Sent\nEnter Valid UID")));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Sending OTP")));
+                      }
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP Sent to Number:')));
                       setState(() {
                         otpsent = true;//otp sending
                       });
-                    } else if(res.status=='n'){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("OTP Not Sent\nEnter Valid UID")));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: CircularProgressIndicator()));
-                    }
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP Sent to Number:')));
-                    setState(() {
-                      otpsent = true;//otp sending
-                    });
+                      }, 
+                      child: Text("Get OTP")),
+                ):SizedBox(),
 
-              }, child: Text("Get OTP")):SizedBox(),
-              otpsent?
-              TextField(
-                controller: OTPTextContoller,
-                decoration: InputDecoration(hintText: 'OTP',labelText: 'OTP',border: OutlineInputBorder()),
-                keyboardType: TextInputType.numberWithOptions(decimal: false,signed: false),
-                onSubmitted: (val) async {
-                  Response res = await Authentication.verifyOTp(UIDTextContoller.text, txnId, OTPTextContoller.text);
-                  if(res.status=='y') {
-                    //proceed
-                    setState(() {
-                    enter = true;
-                    showotp = false;
-                    otpsent = false;
-                    caneditUID = false;
-                    });
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP is wrong')));
-                  }
-                },
-              ):SizedBox(height: 0,)
-            ],),):SizedBox(height: 0,),
+                SizedBox(height: 15,),
+
+                otpsent?Container(
+                  margin: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(2),
+                  child: TextField(
+                    obscureText: true,
+                    controller: OTPTextContoller,
+                    decoration: InputDecoration(hintText: 'Enter OTP',labelText: 'OTP',border: OutlineInputBorder()),
+                    keyboardType: TextInputType.numberWithOptions(decimal: false,signed: false),
+                    onSubmitted: (val) async {
+                      Response res = await Authentication.verifyOTp(UIDTextContoller.text, txnId, OTPTextContoller.text);
+                      if(res.status=='y') {
+                      //proceed
+                      setState(() {
+                      enter = true;
+                      showotp = false;
+                      otpsent = false;
+                      caneditUID = false;
+                      });
+                    } else if(OTPTextContoller.text.length>6) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP should be 6 characters in length!')));
+                    } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP is Wrong !')));
+                      }
+                      },
+                  ),
+                ):SizedBox(height: 0,)
+                ],
+              ),
+            ):SizedBox(height: 0,),
 
             enter&&!show?Container(
-              margin: EdgeInsets.all(3),
-              padding: EdgeInsets.all(3),
-              child: Column(children: [
-                TextField(//flatno/houseno
-                  controller: c1,
-                  maxLines: 2,
-                  decoration: InputDecoration(labelText:  'Local address',border: OutlineInputBorder()),
-                ),
-                TextField(//street
-                  controller: c2,
-                  maxLines: 2,
-                  decoration: InputDecoration(labelText: 'Main address',enabled: false,border: OutlineInputBorder()),
-                ),
-              ],),
-            ):SizedBox(),
-
-            (enter)?Container(
-              margin: EdgeInsets.all(3),
-              padding: EdgeInsets.all(3),
+              margin: EdgeInsets.all(2),
+              padding: EdgeInsets.all(2),
               child: Column(
                 children: [
+                  SizedBox(height: 8,),
+
+                  Container(
+                  margin: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(2),
+                  child: TextField(//flatno/houseno
+                    controller: c1,
+                    maxLines: 2,
+                    decoration: InputDecoration(labelText:  'Local address',border: OutlineInputBorder()),
+                  ),
+                ),
+
+                  SizedBox(height: 8,),
+
+                  Container(
+                    margin: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(2),
+                    child: TextField(//street
+                        controller: c2,
+                        maxLines: 2,
+                        decoration: InputDecoration(labelText: 'Main address',enabled: false,border: OutlineInputBorder()
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ):SizedBox(height: 0,),
+
+            (enter)?Container(
+              margin: EdgeInsets.all(2),
+              padding: EdgeInsets.all(2),
+              child: Column(
+                children: [
+                  SizedBox(height: 8,),
+
                   output!='null'?Container(
-                    margin: EdgeInsets.all(3),
-                    padding: EdgeInsets.all(3),
+                    margin: EdgeInsets.all(2),
+                    padding: EdgeInsets.all(2),
                     child: Text(output), // error length as output
                   ):SizedBox(),
                   //button to capture image
@@ -278,7 +331,12 @@ class MyHomePageState extends State<MyHomePage> {
 
                   // output!="null"?Container(child: Text(output.toString()),):SizedBox(),
 
-                  show==false?ElevatedButton(onPressed: () async {
+                  !show?
+                  Container(
+                    margin: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8),
+                    child: ElevatedButton(
+                      onPressed: () async {
                       var prefs = await SharedPreferences.getInstance();
                       var opuid = prefs.getString('OpUID');
                       List fa = (c1.text.toString()+","+c2.text.toString()).split(',');
@@ -296,57 +354,58 @@ class MyHomePageState extends State<MyHomePage> {
                         gps_address: location.gps_address,
                         document_address: location.doc_address,
                         final_address: fa,
-                    );
-                    setState(() {
-                      isLoading = true;
-                    });
-                    var jsonData = jsonEncode(data.toJson()); ///encode to json
-                    var d = await getExternalStorageDirectory();
-
-                    try{
-                      await File(d!.path.toString()+"IMP_FILES.json").exists().then((value)async{
-                        if(value){
-                          print("yes");
-                          var prev = await File(d.path.toString()+"IMP_FILES.json").readAsString();
-                          // var add = jsonDecode(d.path.toString()+'IMP_FILES.json');
-                          print(prev);
-                          prev = prev.replaceFirst(new RegExp(r'}]'), "},"+jsonData.toString()+"]");//convert into valid json format by appending to list
-                          File(d.path.toString()+"IMP_FILES.json").writeAsStringSync(prev);
-                        }
-                        else{
-                          File(d.path.toString()+"IMP_FILES.json").writeAsStringSync("["+jsonData.toString()+"]");
-                        }
-                        setState(() {
-                          //clear to defaults
-                          show=false; // show the image
-                          address= null;perm=null;
-                          uid = false;
-                          len = 0;
-                          pos1=null;pos2=null;
-                          otpsent = false;
-                          enter = false;
-                          showotp = false;
-                          caneditUID = true;
-                          output='null';
-                          c1.clear();
-                          c2.clear();
-                          UIDTextContoller.clear();
-                          OTPTextContoller.clear();
-                          location.clear();
-                          ImageProcessing.clear();
-                          isLoading = false; //Loading of page
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("saved")));
+                      );
+                      setState(() {
+                        isLoading = true;
                       });
-                    }catch(e){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("error")));
-                      print("error"+e.toString());
-                    }
-                    setState(() {
-                      isLoading = false;
-                    });
+                      var jsonData = jsonEncode(data.toJson()); ///encode to json
+                      var d = await getExternalStorageDirectory();
 
-                  }, child: Text("Confirm")):SizedBox()
+                      try{
+                        await File(d!.path.toString()+"IMP_FILES.json").exists().then((value)async{
+                          if(value){
+                            print("yes");
+                            var prev = await File(d.path.toString()+"IMP_FILES.json").readAsString();
+                            // var add = jsonDecode(d.path.toString()+'IMP_FILES.json');
+                            print(prev);
+                            prev = prev.replaceFirst(new RegExp(r'}]'), "},"+jsonData.toString()+"]");//convert into valid json format by appending to list
+                            File(d.path.toString()+"IMP_FILES.json").writeAsStringSync(prev);
+                          }
+                          else{
+                            File(d.path.toString()+"IMP_FILES.json").writeAsStringSync("["+jsonData.toString()+"]");
+                          }
+                          setState(() {
+                            //clear to defaults
+                            show=false; // show the image
+                            address= null;perm=null;
+                            uid = false;
+                            len = 0;
+                            pos1=null;pos2=null;
+                            otpsent = false;
+                            enter = false;
+                            showotp = false;
+                            caneditUID = true;
+                            output='null';
+                            c1.clear();
+                            c2.clear();
+                            UIDTextContoller.clear();
+                            OTPTextContoller.clear();
+                            location.clear();
+                            ImageProcessing.clear();
+                            isLoading = false; //Loading of page
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("saved")));
+                        });
+                      }catch(e){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("error")));
+                        print("error"+e.toString());
+                      }
+                      setState(() {
+                        isLoading = false;
+                      });
+
+                    }, child: Text("Confirm")),
+                  ):SizedBox()
                 ],
               ),
             ):SizedBox(),
