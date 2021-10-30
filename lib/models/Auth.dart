@@ -57,8 +57,8 @@ class Authentication {
     }
     if(response.statusCode == 200 ) {
       res = Response.fromJSON(jsonDecode(response.body));
-      print("Response.statusCode = "+res.status);
-      print("Response.errorCode = ${res.errCode}");
+      print("Verify Response.statusCode = "+res.status);
+      print("Verify Response.errorCode = ${res.errCode}");
     } else {
       print("Error Occurred");
     }

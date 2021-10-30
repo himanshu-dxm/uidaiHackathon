@@ -92,8 +92,10 @@ class MyHomePageState extends State<MyHomePage> {
                       setState(() {
                         otpsent = true;//otp sending
                       });
-                    } else {
+                    } else if(res.status=='n'){
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("OTP Not Sent\nEnter Valid UID")));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: CircularProgressIndicator()));
                     }
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP Sent to Number:')));
                     setState(() {
@@ -107,17 +109,16 @@ class MyHomePageState extends State<MyHomePage> {
                 decoration: InputDecoration(hintText: 'OTP',labelText: 'OTP',),
                 keyboardType: TextInputType.numberWithOptions(decimal: false,signed: false),
                 onSubmitted: (val) async {
-                  if(val == "1234"){
+                  Response res = await Authentication.verifyOTp(UIDTextContoller.text, txnId, OTPTextContoller.text);
+                  if(res.status=='y') {
                     //proceed
                     setState(() {
-                      enter = true;
-                      showotp = false;
-                      otpsent = false;
-                      caneditUID = false;
+                    enter = true;
+                    showotp = false;
+                    otpsent = false;
+                    caneditUID = false;
                     });
-                  }
-                  else
-                  {
+                  } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP is wrong')));
                   }
                 },
