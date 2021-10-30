@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "937662134685",
+    "project_id": "aadharupdater",
+    "storage_bucket": "aadharupdater.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937662134685:android:ad9a5036ad89fd3da45774",
+        "android_client_info": {
+          "package_name": "com.example.aadharupdater"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "937662134685-01qbp4ta65nvkja34deiho0oqhp2bo6n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfCPfsK-eiuChzIbblNW4XBcL46ZwO7yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "937662134685-01qbp4ta65nvkja34deiho0oqhp2bo6n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
