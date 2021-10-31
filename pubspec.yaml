@@ -31,6 +31,7 @@ dependencies:
   local_auth: ^1.1.7
   uuid: ^3.0.5
   shared_preferences: ^2.0.2
+  google_fonts: ^2.1.0
   flutter:
     sdk: flutter
 
