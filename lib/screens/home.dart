@@ -27,10 +27,10 @@ class MyHomePageState extends State<MyHomePage> {
   var data; // image data
   var address, perm;
   bool uid = false;
-  var len = 0;
+  var len = 1000;
   static var pos1, pos2;
   bool otpsent = false;
-  bool enter = false;
+  bool enter = true;
   bool showotp = false;
   bool caneditUID = true;
   static String output = 'null';
@@ -45,6 +45,7 @@ class MyHomePageState extends State<MyHomePage> {
 
   static String generateTxnId() {
     var uuid = Uuid();
+    print("txnID = "+uuid.v4());
     return(uuid.v4());
   }
   String txnId = generateTxnId();
@@ -69,10 +70,11 @@ class MyHomePageState extends State<MyHomePage> {
             appBar: AppBar(
               shape: ContinuousRectangleBorder(
                   borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
+                      bottomLeft: Radius.circular(100),
                       bottomRight: Radius.circular(100))),
               backgroundColor: Colors.black,
-              title: Text(AppLocalizations.of(context)!.details,style: TextStyle(color: Colors.white),),
+              title: Center(child: Text(AppLocalizations.of(context)!.details,style: TextStyle(color: Colors.white),)),
+              automaticallyImplyLeading: false,
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -159,6 +161,9 @@ class MyHomePageState extends State<MyHomePage> {
                                                     Color>(Colors.yellowAccent),
                                           ),
                                           onPressed: () async {
+                                            setState(() {
+                                              isLoading = true;
+                                            });
                                             Response res =
                                                 await Authentication.sendOTP(
                                                     UIDTextContoller.text,
@@ -166,6 +171,7 @@ class MyHomePageState extends State<MyHomePage> {
                                             if (res.status == 'y') {
                                               setState(() {
                                                 otpsent = true; //otp sending
+                                                isLoading = false;
                                               });
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(SnackBar(
@@ -175,12 +181,20 @@ class MyHomePageState extends State<MyHomePage> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          "OTP Not Sent\nEnter Valid UID")));
+                                                          "OTP Not Sent")));
+                                              isLoading = false;
+                                            } else if(res.status==null) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      "OTP Not Sent")));
+                                              isLoading = false;
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(SnackBar(
                                                       content:
                                                           Text("Sending OTP")));
+                                              isLoading = false;
                                             }
                                           },
                                           child: Text("Get OTP")),

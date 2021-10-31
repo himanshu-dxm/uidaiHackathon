@@ -7,7 +7,7 @@ class Authentication {
   static final _authURL = Uri.parse("https://stage1.uidai.gov.in/onlineekyc/getAuth/");
 
   static Future<Response> sendOTP(vid,txnId) async {
-    print("Inside sendOtp func");
+    print("Inside sendOtp func\ncid = $vid \n txnId = $txnId");
     Response res = new Response(status: "n", errCode: "");
     var response;
     Map data = {
@@ -22,7 +22,7 @@ class Authentication {
           body: body
       );
     } on Exception catch (e) {
-      response = null;
+      // response = null;
       print(e);
     }
     if(response.statusCode == 200 ) {
@@ -67,7 +67,7 @@ class Authentication {
 }
 
 class Response {
-  String status = "";
+  String status = "n";
   String? errCode = "";
 
   Response({

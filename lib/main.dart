@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       // home: AuthOperatorScreen(),
-      home: isAuth ? AuthOperatorScreen() : OpAuth(),
+      home: MyApp.isAuth ? AuthOperatorScreen() : OpAuth(),
       supportedLocales: L10n.all,
     );
   }
