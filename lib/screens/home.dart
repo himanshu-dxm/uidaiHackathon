@@ -30,7 +30,7 @@ class MyHomePageState extends State<MyHomePage> {
   var len = 1000;
   static var pos1, pos2;
   bool otpsent = false;
-  bool enter = true;
+  bool enter = false;
   bool showotp = false;
   bool caneditUID = true;
   static String output = 'null';
