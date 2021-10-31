@@ -78,7 +78,7 @@ class ImageProcessing{
       for(var i in response.blocks)
       {
         i.lines.forEach((element) {//get the blocks of text
-          l.add(i.text.toString());//add each word to list
+          l.add(element.text.toString());//add each word to list
         });
       }
 
