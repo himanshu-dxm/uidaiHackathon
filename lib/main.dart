@@ -1,3 +1,4 @@
+
 import 'dart:math';
 
 import 'package:aadharupdater/models/Auth.dart';
@@ -5,11 +6,13 @@ import 'package:aadharupdater/screens/authenticateOperator.dart';
 import 'package:aadharupdater/screens/home.dart';
 import 'package:aadharupdater/utils/operatorauth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'l10n/l10n.dart';
 import 'screens/demoScreen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,10 +34,18 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   static bool isAuth = false;
+  static Locale language = Locale('en');
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Aadhar Updater',
+      locale:language,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.orange).copyWith(
         textTheme: GoogleFonts.robotoTextTheme(
@@ -43,6 +54,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: AuthOperatorScreen(),
       home: isAuth ? AuthOperatorScreen() : OpAuth(),
+      supportedLocales: L10n.all,
     );
   }
 }

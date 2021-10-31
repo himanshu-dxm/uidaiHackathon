@@ -1,0 +1,28 @@
+{
+    "language":  "हिंदी",
+    "enter_manually": "मैन्युअल रूप से दर्ज़ करें",
+    "uid": "यू आई डी",
+    "address":"पता",
+    "verify":"सत्यापित करें",
+    "add": "जोड़ें",
+    "authenticate_yourself": "अपने आप को प्रमाणित करें",
+    "get_otp": "ओ टी पी प्राप्त करें",
+    "capture_image": "छवि कैप्चर करें",
+    "extract":"निचोड़",
+    "validate": "सत्यापित करें",
+    "confirm": "पुष्टि करना",
+    "register_operator":"रजिस्टर ऑपरेटर",
+    "welcome":"सुस्वागत",
+    "clients_list":"ग्राहक की सूची",
+    "change_language":"Change Language to English",
+    "enter":"प्रवेश करना",
+    "otp":"ओटीपी",
+    "localaddress":"स्थानीय पता",
+    "mainaddress":"मुख्य पता",
+    "errordistance":"त्रुटि दूरी",
+    "error":"त्रुटि",
+    "details":"विवरण दर्ज करें",
+    "@language":{
+         "description": "out first optional language"
+    }
+}

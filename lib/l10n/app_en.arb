@@ -1,0 +1,28 @@
+{
+    "language":  "English",
+    "enter_manually": "Enter Manually",
+    "uid": "UID",
+    "address":"Address",
+    "verify":"Verify",
+    "add": "Add",
+    "authenticate_yourself": "Authenticate yourself",
+    "get_otp": "Get OTP",
+    "capture_image": "Capture Image",
+    "extract":"Extract",
+    "validate": "Validate",
+    "confirm": "Confirm",
+    "welcome":"Welcome",
+    "clients_list":"Client's List",
+    "register_operator":"Register Operator's",
+    "change_language":"भाषा को हिंदी में बदलें",
+    "enter":"Enter",
+    "otp":"OTP",
+    "localaddress":"Local Address",
+    "mainaddress":"Main Address",
+    "errordistance":"Error distance",
+    "error":"Error",
+    "details":"Enter details",
+    "@language":{
+        "description": "our default language"
+    }
+}
