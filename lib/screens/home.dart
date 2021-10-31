@@ -164,13 +164,16 @@ class MyHomePageState extends State<MyHomePage> {
                                             setState(() {
                                               isLoading = true;
                                             });
-                                            Response res =
+                                            // Response res =
                                                 await Authentication.sendOTP(
                                                     UIDTextContoller.text,
-                                                    txnId);
-                                            if (res.status == 'y') {
+                                                    txnId).then((res) async {
+                                                      setState(() {
+                                                        otpsent = true;
+                                                      });
+                                              if (res.status == 'y') {
                                               setState(() {
-                                                otpsent = true; //otp sending
+                                                 //otp sending
                                                 isLoading = false;
                                               });
                                               ScaffoldMessenger.of(context)
@@ -194,9 +197,12 @@ class MyHomePageState extends State<MyHomePage> {
                                                   .showSnackBar(SnackBar(
                                                       content:
                                                           Text("Sending OTP")));
-                                              isLoading = false;
                                             }
-                                          },
+                                            setState(() {
+                                              isLoading = false;
+                                            });
+                                          });
+                                        },
                                           child: Text("Get OTP")),
                                     )
                                   : SizedBox(),
