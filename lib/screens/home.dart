@@ -70,8 +70,8 @@ class MyHomePageState extends State<MyHomePage> {
             appBar: AppBar(
               shape: ContinuousRectangleBorder(
                   borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(100),
-                      bottomRight: Radius.circular(100))),
+                      bottomLeft: Radius.circular(80),
+                      bottomRight: Radius.circular(80),)),
               backgroundColor: Colors.black,
               title: Center(child: Text(AppLocalizations.of(context)!.details,style: TextStyle(color: Colors.white),)),
               automaticallyImplyLeading: false,

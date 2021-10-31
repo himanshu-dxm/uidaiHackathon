@@ -25,9 +25,9 @@ List<IconData> iconer = [
   // Icons.add
 ];
 List<Register> registers = [
-  new Register('Haneesh\'s UID', "123456789011", contenter, iconer),
-  new Register('Himanshu Behl\'s UID', "123456789012", contenter, iconer),
-  new Register('Amith Shubhan\'s UID', "123456789013", contenter, iconer)
+  new Register('Haneesh\'s UID', "999943979322", contenter, iconer),
+  new Register('Himanshu Behl\'s UID', "999936311166", contenter, iconer),
+  new Register('Amith Shubhan\'s UID', "999987508745", contenter, iconer)
 ];
 
 class Register {
@@ -39,7 +39,7 @@ class Register {
   Register(this.title, this.UID, this.contents, this.icon);
 }
 
-List<String> addresses = ["Address 1", "Address 2", "Address 3"];
+List<String> addresses = ["${_Screen2State.addr}", "${_Screen2State.addr}", "${_Screen2State.addr}"];
 
 class AmithHomePage extends StatefulWidget {
   const AmithHomePage({Key? key, required this.title}) : super(key: key);
@@ -140,16 +140,16 @@ _buildExpandableContent(Register register, BuildContext context, var k) {
     columnContent.add(
       new ListTile(
         title: new Text(
-          content == "Address" ? addresses[k] : content,
+          content == AppLocalizations.of(context)!.address.toString() ? addresses[k] : content,
           style: const TextStyle(fontSize: 18.0),
         ),
         leading: new Icon(iconer[i]),
         trailing: Icon(
-          content != "Address" ? Icons.arrow_forward_ios : null,
+          content != AppLocalizations.of(context)!.address.toString() ? Icons.arrow_forward_ios : null,
         ),
         onTap: () {
           print(registers[i].UID);
-          if (content != "Address") {
+          if (content != AppLocalizations.of(context)!.address.toString()) {
             MyHomePageState.UIDTextContoller.text = registers[k].UID.toString();
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => MyHomePage()));
