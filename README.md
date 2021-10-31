@@ -1,16 +1,12 @@
 # aadharupdater
 
-A new Flutter project.
+# Our Aadhaar Address Updater App
 
-## Getting Started
+  The screenshots and the working app video presentation are present in the Wazeer folder in the repo
 
-This project is a starting point for a Flutter application.
+Team Name : Tech Wazeer
+Ref id : A6vapZxxmU
+Team Leader Name : Himanshu Behl
+email : 1ms19is046@gmail.com
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The apk,video,screenshots link : https://drive.google.com/drive/folders/1oqB3UTShexRXHvE2tYpvoxh4jYv90nI-?usp=sharing
