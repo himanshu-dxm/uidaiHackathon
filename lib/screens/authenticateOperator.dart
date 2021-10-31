@@ -1,12 +1,11 @@
 import 'dart:ui';
-
+import 'package:aadharupdater/main.dart';
 import 'package:aadharupdater/api/LocalAuthAPI.dart';
 import 'package:aadharupdater/screens/home.dart';
 import 'package:aadharupdater/screens/screen2.dart';
 import 'package:flutter/material.dart';
-
 import 'demoScreen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AuthOperatorScreen extends StatefulWidget {
   const AuthOperatorScreen({Key? key}) : super(key: key);
 
@@ -47,7 +46,7 @@ class _AuthOperatorScreenState extends State<AuthOperatorScreen> {
                       SizedBox(height: 200,),
                       Container(
                         child: Text(
-                          "Welcome",
+                          AppLocalizations.of(context)!.welcome,
                           style: TextStyle(
                           textBaseline: TextBaseline.alphabetic,
                           fontSize: 34,
@@ -74,7 +73,7 @@ class _AuthOperatorScreenState extends State<AuthOperatorScreen> {
                               },
                               child: Container(
                                 child: Text(
-                                    "Authenticate Yourself",
+                                    AppLocalizations.of(context)!.authenticate_yourself,
                                     style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.greenAccent,
@@ -84,6 +83,31 @@ class _AuthOperatorScreenState extends State<AuthOperatorScreen> {
 
                             ),
                           )
+                      ),
+                      Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blueAccent)),
+                        child: GestureDetector(
+                          child: Text(AppLocalizations.of(context)!.change_language,
+                                      style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.greenAccent,
+                                                  )
+                                      ),
+                                      onTap: (){
+                                        if(MyApp.language.languageCode=='en'){
+                                          print('hindi');
+                                          print(AppLocalizations.of(context)!.welcome);
+                                          MyApp.language = Locale('hi');
+                                        }
+                                        else
+                                        {
+                                          MyApp.language = Locale('en');
+                                        }
+                                        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>MyApp()));
+                                      },
+                        ),
                       ),
                     ]
                   )

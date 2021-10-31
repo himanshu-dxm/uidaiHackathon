@@ -13,7 +13,8 @@ import '../utils/capture.dart';
 import '../models/data.dart';
 import '../utils/compare.dart';
 import 'package:uuid/uuid.dart';
-
+import '../provider/locale_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MyHomePage extends StatefulWidget {
   @override
   MyHomePageState createState() => MyHomePageState();
@@ -42,14 +43,12 @@ class MyHomePageState extends State<MyHomePage> {
   static TextEditingController OTPTextContoller =
       new TextEditingController(); //for OTP
 
-  String txnId = "0acbaa8b-b3ae-433d-a5d2-51250ea8e970";
-  String backEndOTP = "";
-
-  void generateTxnId() {
+  static String generateTxnId() {
     var uuid = Uuid();
-    txnId = uuid.v4();
+    return(uuid.v4());
   }
-
+  String txnId = generateTxnId();
+  String backEndOTP = "";
   static Future<void> getLocation() async {
     //function to get the location of the mobile using gps
     List<String> i = await location.getPlace();
@@ -73,7 +72,7 @@ class MyHomePageState extends State<MyHomePage> {
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(100))),
               backgroundColor: Colors.black,
-              title: Text('Enter Details'),
+              title: Text(AppLocalizations.of(context)!.details,style: TextStyle(color: Colors.white),),
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -122,8 +121,8 @@ class MyHomePageState extends State<MyHomePage> {
                                           });
                                         },
                                       ),
-                                      hintText: 'UID',
-                                      labelText: 'UID',
+                                      hintText: AppLocalizations.of(context)!.uid,
+                                      labelText: AppLocalizations.of(context)!.uid,
                                       enabled: caneditUID),
                                   keyboardType: TextInputType.number,
                                   onSubmitted: (val) async {
@@ -262,7 +261,7 @@ class MyHomePageState extends State<MyHomePage> {
                                   controller: c1,
                                   maxLines: 2,
                                   decoration: InputDecoration(
-                                      labelText: 'Local address',
+                                      labelText: AppLocalizations.of(context)!.localaddress,
                                       border: OutlineInputBorder()),
                                 ),
                               ),
@@ -277,7 +276,7 @@ class MyHomePageState extends State<MyHomePage> {
                                   controller: c2,
                                   maxLines: 2,
                                   decoration: InputDecoration(
-                                      labelText: 'Main address',
+                                      labelText: AppLocalizations.of(context)!.mainaddress,
                                       enabled: false,
                                       border: OutlineInputBorder()),
                                 ),
@@ -309,7 +308,7 @@ class MyHomePageState extends State<MyHomePage> {
                               //button to capture image
                               Center(
                                 child: ElevatedButton(
-                                  child: Text('Capture Image'),
+                                  child: Text(AppLocalizations.of(context)!.capture_image.toString()),
                                   onPressed: () async {
                                     //get image from camera
                                     //edited
@@ -368,8 +367,7 @@ class MyHomePageState extends State<MyHomePage> {
                                             setState(() {
                                               c1.text = s;
                                               isLoading = false;
-                                              c2.text = MyHomePageState.pos2
-                                                  .toString();
+                                              c2.text = MyHomePageState.pos2.toString();
                                             });
                                           } on Exception catch (e) {
                                             setState(() {
@@ -405,7 +403,7 @@ class MyHomePageState extends State<MyHomePage> {
                                           //  print(e);
                                         }
                                       },
-                                      child: Text("extract"))
+                                      child: Text(AppLocalizations.of(context)!.extract))
                                   : SizedBox(),
 
                               show == false
@@ -428,7 +426,7 @@ class MyHomePageState extends State<MyHomePage> {
                                                         "Error distance is more than 200m")));
                                           }
                                           setState(() {
-                                            output = "Error distance:" +
+                                            output = "${AppLocalizations.of(context)!.errordistance}:" +
                                                 len.toString() +
                                                 "m";
                                             print("Output = " +
@@ -443,7 +441,7 @@ class MyHomePageState extends State<MyHomePage> {
                                           //  print(e);
                                         }
                                       },
-                                      child: Text("Validate"))
+                                      child: Text(AppLocalizations.of(context)!.validate))
                                   : SizedBox(),
 
                               // output!="null"?Container(child: Text(output.toString()),):SizedBox(),
@@ -553,7 +551,7 @@ class MyHomePageState extends State<MyHomePage> {
                                           isLoading = false;
                                         });
                                       },
-                                      child: Text("Confirm")),
+                                      child: Text(AppLocalizations.of(context)!.confirm)),
                                 )
                               else
                                 SizedBox(),

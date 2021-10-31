@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'home.dart';
-
+import 'package:aadharupdater/main.dart';
 class Screen2 extends StatefulWidget {
   const Screen2({Key? key}) : super(key: key);
-
   @override
   _Screen2State createState() => _Screen2State();
 }
 
 class _Screen2State extends State<Screen2> {
+  static var addr,ver;
   @override
   Widget build(BuildContext context) {
+      addr = AppLocalizations.of(context)!.address.toString();
+      ver = AppLocalizations.of(context)!.verify.toString();
     return AmithHomePage(title: 'Aadhaar Address Update ');
   }
 }
 
-List<String> contenter = ['Address', 'Verify'];
+List<String>contenter = [_Screen2State.addr,_Screen2State.ver];
 List<IconData> iconer = [
   Icons.perm_identity,
   Icons.domain_verification,
@@ -60,7 +62,7 @@ class _AmithHomePageState extends State<AmithHomePage> {
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(100))),
         backgroundColor: Colors.black,
-        title: Center(child: Text("Client's List")),
+        title: Center(child: Text(AppLocalizations.of(context)!.clients_list,style: TextStyle(color: Colors.white),)),
       ),
       body: Container(
         margin: EdgeInsets.all(1),
@@ -77,7 +79,7 @@ class _AmithHomePageState extends State<AmithHomePage> {
               padding: EdgeInsets.all(8),
               child: GestureDetector(
                 child: Text(
-                  'Enter manually',
+                 AppLocalizations.of(context)!.enter_manually,
                   style: new TextStyle(
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,

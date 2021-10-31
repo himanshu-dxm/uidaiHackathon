@@ -1,7 +1,7 @@
 import 'package:aadharupdater/screens/authenticateOperator.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class OpAuth extends StatefulWidget {
   OpAuthState createState() => OpAuthState();
 }
@@ -21,7 +21,7 @@ class OpAuthState extends State<OpAuth> {
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(100))),
               backgroundColor: Colors.black,
-              title: Text("Register Operator's UID"),
+              title: Text("रजिस्टर ऑपरेटर आई डी(Register Operator Id)",maxLines: 2,style: TextStyle(color: Colors.white),overflow: TextOverflow.ellipsis,),
             ),
             body: Container(
               decoration: BoxDecoration(border: Border.all(width: 1)),
@@ -32,7 +32,7 @@ class OpAuthState extends State<OpAuth> {
                   TextField(
                     controller: opID,
                     decoration: InputDecoration(
-                        hintText: 'ID/NAME', border: OutlineInputBorder()),
+                        hintText: 'आई डी (ID)/नाम (Name)', border: OutlineInputBorder()),
                   ),
                   ElevatedButton(
                       onPressed: () async {
