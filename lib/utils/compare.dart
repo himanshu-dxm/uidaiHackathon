@@ -20,6 +20,7 @@ class Compare{
         {
           res.add(i);
         }
+        else break;
       }
       // print(res);
       return res.join(', '); // join the data

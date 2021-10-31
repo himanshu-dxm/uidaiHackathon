@@ -12,8 +12,8 @@ class location{
       List<Placemark> placemarks = await placemarkFromCoordinates(p.latitude,p.longitude);//get address from coordiantes
       location.loc_lat = p.latitude;
       location.loc_long = p.longitude;
-      location.gps_address = [placemarks[0].name.toString(),placemarks[0].subThoroughfare.toString(),placemarks[0].thoroughfare.toString()+placemarks[0].subLocality.toString(),placemarks[0].locality.toString(),placemarks[0].subAdministrativeArea.toString(),placemarks[0].administrativeArea.toString()+" - "+placemarks[0].postalCode.toString()];
-      return [[placemarks[0].name!,placemarks[0].subThoroughfare!.isNotEmpty,placemarks[0].thoroughfare!].join(', '),[placemarks[0].subLocality!,placemarks[0].locality,placemarks[0].subAdministrativeArea!,placemarks[0].administrativeArea!+" - "+placemarks[0].postalCode!].join(', ')];
+      location.gps_address = [placemarks[0].name.toString(),placemarks[0].subThoroughfare.toString(),placemarks[0].thoroughfare.toString()+placemarks[0].subLocality.toString(),placemarks[0].locality.toString(),placemarks[0].subAdministrativeArea.toString(),placemarks[0].administrativeArea.toString()+", "+placemarks[0].postalCode.toString()];
+      return [[placemarks[0].name!,placemarks[0].subThoroughfare!.isNotEmpty,placemarks[0].thoroughfare!].join(', '),[placemarks[0].subLocality!,placemarks[0].locality,placemarks[0].subAdministrativeArea!,placemarks[0].administrativeArea!,placemarks[0].postalCode!].join(', ')];
     }
 
     catch(e)
