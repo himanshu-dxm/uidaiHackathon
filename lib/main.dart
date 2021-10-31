@@ -15,8 +15,8 @@ Future<void> main()async{
     WidgetsFlutterBinding.ensureInitialized();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.clear();//need to be commented
-    var Is = prefs.containsKey('OpUID');
-    var s = prefs.getString('OpUID');
+    var Is = prefs.containsKey('OpID');
+    var s = prefs.getString('OpID');
     if(!Is || s==null || s.length ==0 )
     {
       MyApp.isAuth = false;
@@ -39,8 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.orange),
       // home: AuthOperatorScreen(),
-      // home: isAuth?AuthOperatorScreen():OpAuth(),
-      home: AuthOperatorScreen(),
+      home: isAuth?AuthOperatorScreen():OpAuth(),
     );
   }
 }

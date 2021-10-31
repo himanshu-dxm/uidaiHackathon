@@ -7,12 +7,8 @@ class OpAuth extends StatefulWidget{
 }
 
 class OpAuthState extends State<OpAuth>{
-  TextEditingController opUID = new TextEditingController();
-  TextEditingController opOTP = new TextEditingController();
-  bool showOTPButton = false;
-  bool canEditUid = true;
+  TextEditingController opID = new TextEditingController();
   bool isLoading = false;
-  bool showOTPField = false;
   Widget build(context){
     return isLoading?Center(child: CircularProgressIndicator(),):Scaffold(
       appBar: AppBar(title: Text("Register Operator's UID"),),
@@ -22,50 +18,22 @@ class OpAuthState extends State<OpAuth>{
         margin: EdgeInsets.all(3),
         child: Column(children: [
           TextField(
-            controller: opUID,
-            maxLength: 12,
-            decoration: InputDecoration(enabled: canEditUid,hintText: 'UID',border: OutlineInputBorder()),
-            keyboardType: TextInputType.numberWithOptions(signed: false,decimal: false),
-            onSubmitted: (val)async{
-              if(val.length==12)
-              {
-                setState(() {
-                  canEditUid = false;
-                  showOTPButton = true;
-                });
-              }
-              else
-              {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("UID is invalid")));
-              }
-            },
+            controller: opID,
+            decoration: InputDecoration(hintText: 'ID/NAME',border: OutlineInputBorder()),
           ),
-          showOTPButton?ElevatedButton(onPressed: ()async{
+          ElevatedButton(onPressed: ()async{
             //send otp
             setState(() {
-              showOTPField = true;
+              isLoading = true;
             });
-          }, child: Text("Get OTP")):SizedBox(),
-          showOTPField?TextField(
-            controller: opOTP,
-            decoration: InputDecoration(hintText: 'OTP',border: OutlineInputBorder()),
-            keyboardType: TextInputType.numberWithOptions(signed: false,decimal: false),
-            onSubmitted: (val)async{
-              //validation is in if statement
-              if(val.isNotEmpty)//see if correct
-              {
-                //edit sharedpref
-                var prefs = await SharedPreferences.getInstance();
-                prefs.setString('OpUID',opUID.text.toString());
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("UID saved")));
-                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>AuthOperatorScreen()));
-              }
-              else
-              {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("OTP is wrong")));
-              }
-            },
-          ):SizedBox(),
+            var prefs = await SharedPreferences.getInstance();
+                prefs.setString('OpID',opID.text.toString());
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("saved")));
+            setState(() {
+              isLoading = false;
+            });
+            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>AuthOperatorScreen()));
+          }, child: Text("Save")),
         ],),
       ),
     );

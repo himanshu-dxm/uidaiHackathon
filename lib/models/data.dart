@@ -1,9 +1,8 @@
 import 'dart:typed_data';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Data{
-  final String opUID;
+  final String OpID;
   final DateTime date;
   final String UID;
   final double loc_lat,loc_long,add_lat,add_long;
@@ -14,7 +13,7 @@ class Data{
   final Uint8List filedata;
 
   const Data({
-    required this.opUID,
+    required this.OpID,
     required this.date,
     required this.filedata,
     required this.txnId,
@@ -31,11 +30,11 @@ class Data{
   });
 Future<Map<String, dynamic>> toJson()async {
   var prefs = await SharedPreferences.getInstance();
-  var opuid = prefs.getString('OpUID');
+  var OpID = prefs.getString('OpID');
   return {
         "date":date.toIso8601String(),
         "UID":UID,
-        "OpUID":opUID,
+        "OpID":OpID,
         "security":txnId,
         // "filedata":filedata,
         "final_address":final_address,

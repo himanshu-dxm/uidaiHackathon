@@ -73,8 +73,6 @@ class MyHomePageState extends State<MyHomePage> {
               margin: EdgeInsets.all(2),
               padding: EdgeInsets.all(2),
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: 8,),
                 Container(
@@ -140,15 +138,12 @@ class MyHomePageState extends State<MyHomePage> {
                         setState(() {
                           otpsent = true;//otp sending
                         });
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP Sent to Number')));
                       } else if(res.status=='n'){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("OTP Not Sent\nEnter Valid UID")));
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Sending OTP")));
                       }
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP Sent to Number:')));
-                      setState(() {
-                        otpsent = true;//otp sending
-                      });
                       }, 
                       child: Text("Get OTP")),
                 ):SizedBox(),
@@ -315,6 +310,10 @@ class MyHomePageState extends State<MyHomePage> {
                       });
 
                       len = await location.check(c1.text.toString()+', '+c2.text.toString()); // check the error distance
+                      if(len>200)
+                      {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error distance is more than 200m")));
+                      }
                       setState(() {
                         output = "Error distance:"+len.toString()+"m";
                         print("Output = "+output.toString());
@@ -331,18 +330,17 @@ class MyHomePageState extends State<MyHomePage> {
 
                   // output!="null"?Container(child: Text(output.toString()),):SizedBox(),
 
-                  !show?
-                  Container(
+                  if (!show&&len<=200) Container(
                     margin: EdgeInsets.all(8),
                     padding: EdgeInsets.all(8),
                     child: ElevatedButton(
                       onPressed: () async {
                       var prefs = await SharedPreferences.getInstance();
-                      var opuid = prefs.getString('OpUID');
+                      var OpID = prefs.getString('OpID');
                       List fa = (c1.text.toString()+","+c2.text.toString()).split(',');
                       Data data = new Data(date: DateTime.now(),
                         txnId: txnId.toString(),
-                        opUID: opuid.toString(),
+                        OpID: OpID.toString(),
                         UID: UIDTextContoller.text.toString(),
                         add_lat: location.add_lat,
                         add_long: location.add_long,
@@ -358,15 +356,13 @@ class MyHomePageState extends State<MyHomePage> {
                       setState(() {
                         isLoading = true;
                       });
-                      var jsonData = jsonEncode(data.toJson()); ///encode to json
-                      var d = await getExternalStorageDirectory();
-
                       try{
+                        var jsonData =await jsonEncode(await data.toJson()); ///encode to json
+                        var d = await getExternalStorageDirectory();
                         await File(d!.path.toString()+"IMP_FILES.json").exists().then((value)async{
                           if(value){
                             print("yes");
                             var prev = await File(d.path.toString()+"IMP_FILES.json").readAsString();
-                            // var add = jsonDecode(d.path.toString()+'IMP_FILES.json');
                             print(prev);
                             prev = prev.replaceFirst(new RegExp(r'}]'), "},"+jsonData.toString()+"]");//convert into valid json format by appending to list
                             File(d.path.toString()+"IMP_FILES.json").writeAsStringSync(prev);
@@ -376,7 +372,7 @@ class MyHomePageState extends State<MyHomePage> {
                           }
                           setState(() {
                             //clear to defaults
-                            show=false; // show the image
+                            show=false; // dont show the image
                             address= null;perm=null;
                             uid = false;
                             len = 0;
@@ -405,11 +401,10 @@ class MyHomePageState extends State<MyHomePage> {
                       });
 
                     }, child: Text("Confirm")),
-                  ):SizedBox()
+                  ) else SizedBox(),
                 ],
               ),
             ):SizedBox(),
-
           ],
         ),
       ),
